@@ -9,7 +9,8 @@ export default function Footer() {
           <div>
             <Logo />
             <p className="mt-5 max-w-xs text-sm leading-7 text-[#6a5d55]">
-              Premium dry fruits, gourmet chocolates and healthy seeds — selected with care and packed for freshness.
+              Premium Dry Fruits, Seeds & Spices
+Thoughtfully selected, beautifully packed and delivered fresh to your doorstep.
             </p>
             <div className="mt-5 flex gap-3">
               <a href="#" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center rounded-full bg-white hover:bg-rosebrand hover:text-white"><i className="fa-brands fa-instagram" /></a>
@@ -30,17 +31,17 @@ export default function Footer() {
           <div>
             <h3 className="font-heading text-lg font-bold">Categories</h3>
             <div className="mt-5 flex flex-col gap-3 text-sm">
-              <span>Premium Dry Fruits</span>
-              <span>Gourmet Chocolate</span>
-              <span>Healthy Seeds</span>
-              <span>Gift Boxes</span>
+              <span>Nuts & Dry Fruits</span>
+              <span>Seeds</span>
+              <span>Spices</span>
+              <span>Dates</span>
             </div>
           </div>
           <div>
             <h3 className="font-heading text-lg font-bold">Contact</h3>
             <div className="mt-5 space-y-4 text-sm text-[#6a5d55]">
-              <a href="mailto:hello@urbanbites.in" className="flex gap-3 hover:text-rosebrand"><i className="ri-mail-line text-lg text-rosebrand" /> hello@urbanbites.in</a>
-              <a href="tel:+919999999999" className="flex gap-3 hover:text-rosebrand"><i className="ri-phone-line text-lg text-rosebrand" /> +91 99999 99999</a>
+              <a href="mailto:support.urbanbites@gmail.com" className="flex gap-3 hover:text-rosebrand"><i className="ri-mail-line text-lg text-rosebrand" /> support.urbanbites@gmail.com</a>
+              <a href="tel:+91 9113261617" className="flex gap-3 hover:text-rosebrand"><i className="ri-phone-line text-lg text-rosebrand" /> +91 91132 61617</a>
               <div className="flex gap-3"><i className="ri-map-pin-line text-lg text-rosebrand" /> India-wide delivery</div>
             </div>
           </div>

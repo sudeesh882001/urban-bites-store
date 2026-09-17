@@ -1,31 +1,522 @@
 import type { Product } from "../types";
 
-const img = (query: string) =>
-  `https://loremflickr.com/900/900/${encodeURIComponent(query)},food?lock=${Math.abs(query.split("").reduce((a,c)=>a+c.charCodeAt(0),0))}`;
+const img = (_query: string) => "";
 
 export const products: Product[] = [
-  { id:"premium-almonds", name:"Premium Almonds", category:"Dry Fruits", price:349, originalPrice:399, weight:"250 g", image:img("almonds"), description:"Crunchy California almonds selected for their rich taste and satisfying bite. A wholesome everyday snack packed with natural goodness.", rating:4.8, reviews:218, bestseller:true, tags:["High Protein","Everyday Snack","Premium"] },
-  { id:"golden-raisins", name:"Golden Raisins", category:"Dry Fruits", price:279, originalPrice:329, weight:"250 g", image:img("golden raisins"), description:"Naturally sweet golden raisins with a soft, juicy texture. Great for snacking, baking, breakfast bowls and festive recipes.", rating:4.6, reviews:154, bestseller:true, tags:["Naturally Sweet","No Added Sugar","Snack"] },
-  { id:"cashew-nuts", name:"Cashew Nuts", category:"Dry Fruits", price:429, originalPrice:499, weight:"250 g", image:img("cashew nuts"), description:"Premium whole cashews with a buttery crunch and clean finish. Carefully packed to preserve freshness.", rating:4.9, reviews:302, bestseller:true, tags:["Premium","Crunchy","Giftable"] },
-  { id:"dried-figs", name:"Dried Figs", category:"Dry Fruits", price:459, originalPrice:529, weight:"250 g", image:img("dried figs"), description:"Plump dried figs with a naturally honeyed flavor and tender texture. A delicious addition to breakfast and desserts.", rating:4.7, reviews:121, bestseller:false, tags:["Fiber Rich","Naturally Sweet","Premium"] },
-  { id:"walnut-halves", name:"Walnut Halves", category:"Dry Fruits", price:489, originalPrice:549, weight:"250 g", image:img("walnuts"), description:"Large walnut halves with a pleasantly earthy flavor and delicate crunch. Ideal for salads, oats or straight from the pouch.", rating:4.8, reviews:176, bestseller:true, tags:["Omega Rich","Crunchy","Premium"] },
-  { id:"medjool-dates", name:"Dried Dates (Medjool)", category:"Dry Fruits", price:399, originalPrice:449, weight:"300 g", image:img("medjool dates"), description:"Soft, caramel-like Medjool dates with naturally occurring sweetness. A satisfying energy snack for busy days.", rating:4.7, reviews:143, bestseller:false, tags:["Energy Snack","Naturally Sweet","Soft"] },
-  { id:"roasted-pistachios", name:"Pistachios (Roasted)", category:"Dry Fruits", price:499, originalPrice:579, weight:"250 g", image:img("roasted pistachios"), description:"Roasted pistachios with a crisp bite and rich nutty flavor. Perfect for mindful snacking and entertaining.", rating:4.9, reviews:267, bestseller:true, tags:["Roasted","Premium","Party Snack"] },
-  { id:"dried-apricots", name:"Dried Apricots", category:"Dry Fruits", price:379, originalPrice:429, weight:"250 g", image:img("dried apricots"), description:"Tender dried apricots with a bright fruity flavor and satisfying chew. A vibrant pantry staple.", rating:4.5, reviews:98, bestseller:false, tags:["Fruity","Snack","Pantry Staple"] },
+  // =========================
+  // DRY FRUITS
+  // =========================
 
-  { id:"dark-chocolate-70", name:"Dark Chocolate Bar 70%", category:"Chocolate", price:249, originalPrice:299, weight:"100 g", image:img("dark chocolate"), description:"Smooth 70% dark chocolate with balanced cocoa intensity and a clean finish. Crafted for serious chocolate moments.", rating:4.8, reviews:341, bestseller:true, tags:["70% Cocoa","Vegetarian","Premium"] },
-  { id:"hazelnut-praline", name:"Hazelnut Praline Chocolate", category:"Chocolate", price:329, originalPrice:379, weight:"120 g", image:img("hazelnut chocolate"), description:"Silky chocolate layered with fragrant roasted hazelnut praline for a luxurious melt and delicate crunch.", rating:4.9, reviews:204, bestseller:true, tags:["Praline","Giftable","Rich"] },
-  { id:"almond-clusters", name:"Almond Chocolate Clusters", category:"Chocolate", price:299, originalPrice:349, weight:"150 g", image:img("almond chocolate clusters"), description:"Roasted almond pieces folded through creamy chocolate for an irresistible crunch in every cluster.", rating:4.7, reviews:166, bestseller:false, tags:["Crunchy","Almond","Snack"] },
-  { id:"white-cranberry", name:"White Chocolate with Cranberries", category:"Chocolate", price:319, originalPrice:369, weight:"120 g", image:img("white chocolate cranberry"), description:"Creamy white chocolate studded with tart cranberries for a playful sweet-and-fruity balance.", rating:4.6, reviews:117, bestseller:false, tags:["Fruity","Creamy","Giftable"] },
-  { id:"truffle-box", name:"Chocolate Truffle Box (12 pieces)", category:"Chocolate", price:699, originalPrice:799, weight:"180 g", image:img("chocolate truffles"), description:"A curated box of twelve indulgent chocolate truffles, perfect for celebrations, gifting or a special evening in.", rating:4.9, reviews:388, bestseller:true, tags:["12 Pieces","Gift Box","Premium"] },
-  { id:"salted-caramel", name:"Salted Caramel Chocolate", category:"Chocolate", price:349, originalPrice:399, weight:"120 g", image:img("salted caramel chocolate"), description:"Velvety chocolate with buttery caramel notes and a delicate touch of sea salt.", rating:4.8, reviews:226, bestseller:true, tags:["Caramel","Sea Salt","Rich"] },
+  {
+    id: "dry-dates",
+    name: "Dry Dates",
+    category: "Dry Fruits",
+    price: 160,
+    originalPrice: 160,
+    weight: "100 g",
+    image: img("dry dates"),
+    description:
+      "Premium quality dry dates with a naturally sweet taste and chewy texture. A wholesome snack for everyday enjoyment.",
+    bestseller: true,
+    tags: ["Natural", "Energy Snack", "Premium"],
+  },
 
-  { id:"chia-seeds", name:"Chia Seeds", category:"Seeds", price:199, originalPrice:229, weight:"250 g", image:img("chia seeds"), description:"Tiny, versatile chia seeds that fit effortlessly into smoothies, overnight oats, puddings and baking.", rating:4.7, reviews:263, bestseller:true, tags:["Fiber Rich","Omega 3","Vegan"] },
-  { id:"pumpkin-seeds", name:"Pumpkin Seeds", category:"Seeds", price:249, originalPrice:299, weight:"250 g", image:img("pumpkin seeds"), description:"Nutty pumpkin seeds with a satisfying crunch, ideal for snacking, salads and breakfast bowls.", rating:4.8, reviews:189, bestseller:true, tags:["Protein","Crunchy","Snack"] },
-  { id:"flax-seeds", name:"Flax Seeds", category:"Seeds", price:169, originalPrice:199, weight:"250 g", image:img("flax seeds"), description:"Fresh, earthy flax seeds for smoothies, baking and homemade granola. A simple pantry essential.", rating:4.5, reviews:132, bestseller:false, tags:["Omega 3","Fiber Rich","Pantry Staple"] },
-  { id:"sunflower-seeds", name:"Sunflower Seeds", category:"Seeds", price:179, originalPrice:219, weight:"250 g", image:img("sunflower seeds"), description:"Lightly toasted sunflower seeds with a clean nutty flavor and crisp bite.", rating:4.4, reviews:84, bestseller:false, tags:["Crunchy","Snack","Toasted"] },
-  { id:"sesame-seeds", name:"Sesame Seeds (White)", category:"Seeds", price:149, originalPrice:179, weight:"250 g", image:img("white sesame seeds"), description:"Clean white sesame seeds for tempering, baking, toppings and homemade sauces.", rating:4.3, reviews:72, bestseller:false, tags:["Kitchen Essential","Baking","Versatile"] },
-  { id:"mixed-seed-blend", name:"Mixed Seed Blend", category:"Seeds", price:289, originalPrice:339, weight:"250 g", image:img("mixed seeds"), description:"A balanced blend of chia, pumpkin, sunflower and flax seeds for easy everyday nutrition.", rating:4.9, reviews:215, bestseller:true, tags:["Blend","Omega Rich","Everyday"] }
+  {
+    id: "california-pistachios",
+    name: "California Pistachios",
+    category: "Dry Fruits",
+    price: 180,
+    originalPrice: 180,
+    weight: "100 g",
+    image: img("California pistachios"),
+    description:
+      "Premium California pistachios selected for their rich flavour and satisfying crunch.",
+    bestseller: true,
+    tags: ["California", "Premium", "Crunchy"],
+  },
+
+  {
+    id: "chilly-cashews",
+    name: "Chilly Cashews",
+    category: "Dry Fruits",
+    price: 160,
+    originalPrice: 160,
+    weight: "100 g",
+    image: img("chilli cashews"),
+    description:
+      "Crunchy premium cashews coated with a delicious spicy chilli seasoning.",
+    bestseller: true,
+    tags: ["Spicy", "Crunchy", "Snack"],
+  },
+
+  {
+    id: "salted-cashews",
+    name: "Salted Cashews",
+    category: "Dry Fruits",
+    price: 160,
+    originalPrice: 160,
+    weight: "100 g",
+    image: img("salted cashews"),
+    description:
+      "Premium whole cashews lightly salted to bring out their natural buttery flavour.",
+    bestseller: true,
+    tags: ["Salted", "Premium", "Crunchy"],
+  },
+
+  {
+    id: "jumbo-cashews",
+    name: "Jumbo Cashews",
+    category: "Dry Fruits",
+    price: 140,
+    originalPrice: 140,
+    weight: "100 g",
+    image: img("jumbo cashews"),
+    description:
+      "Large, crunchy jumbo cashews with a rich buttery taste.",
+    bestseller: true,
+    tags: ["Jumbo", "Premium", "Crunchy"],
+  },
+
+  {
+    id: "california-almonds",
+    name: "California Almonds",
+    category: "Dry Fruits",
+    price: 140,
+    originalPrice: 140,
+    weight: "100 g",
+    image: img("California almonds"),
+    description:
+      "Premium California almonds with a crisp bite and naturally rich nutty flavour.",
+    bestseller: true,
+    tags: ["California", "Premium", "Protein"],
+  },
+
+  {
+    id: "dried-plum",
+    name: "Dried Plum",
+    category: "Dry Fruits",
+    price: 80,
+    originalPrice: 80,
+    weight: "100 g",
+    image: img("dried plum"),
+    description:
+      "Naturally sweet and chewy dried plums, perfect for a convenient everyday snack.",
+    bestseller: false,
+    tags: ["Fruity", "Naturally Sweet", "Snack"],
+  },
+
+  {
+    id: "black-raisins",
+    name: "Black Raisins",
+    category: "Dry Fruits",
+    price: 80,
+    originalPrice: 80,
+    weight: "100 g",
+    image: img("black raisins"),
+    description:
+      "Naturally sweet black raisins with a soft texture and rich fruity flavour.",
+    bestseller: false,
+    tags: ["Naturally Sweet", "Fruity", "Snack"],
+  },
+
+  {
+    id: "walnut",
+    name: "Walnut",
+    category: "Dry Fruits",
+    price: 180,
+    originalPrice: 180,
+    weight: "100 g",
+    image: img("walnuts"),
+    description:
+      "Fresh walnut halves with a delicate crunch and earthy flavour.",
+    bestseller: true,
+    tags: ["Premium", "Omega Rich", "Crunchy"],
+  },
+
+  {
+    id: "walnut-premium",
+    name: "Walnut Premium",
+    category: "Dry Fruits",
+    price: 230,
+    originalPrice: 230,
+    weight: "100 g",
+    image: img("premium walnuts"),
+    description:
+      "Premium selected walnuts with excellent texture, flavour and quality.",
+    bestseller: true,
+    tags: ["Premium", "Selected", "Omega Rich"],
+  },
+
+  {
+    id: "salted-peanuts",
+    name: "Salted Peanuts",
+    category: "Dry Fruits",
+    price: 100,
+    originalPrice: 100,
+    weight: "100 g",
+    image: img("salted peanuts"),
+    description:
+      "Crunchy roasted peanuts lightly seasoned with salt for a classic snack.",
+    bestseller: false,
+    tags: ["Salted", "Crunchy", "Snack"],
+  },
+
+  // =========================
+  // SEEDS
+  // =========================
+
+  {
+    id: "pistachio-kernels",
+    name: "Pistachio Kernels",
+    category: "Seeds",
+    price: 180,
+    originalPrice: 180,
+    weight: "100 g",
+    image: img("pistachio kernels"),
+    description:
+      "Premium shelled pistachio kernels with a rich nutty taste.",
+    bestseller: false,
+    tags: ["Premium", "Kernels", "Crunchy"],
+  },
+
+  {
+    id: "pumpkin-seeds",
+    name: "Pumpkin Seeds",
+    category: "Seeds",
+    price: 120,
+    originalPrice: 120,
+    weight: "100 g",
+    image: img("pumpkin seeds"),
+    description:
+      "Nutty pumpkin seeds with a satisfying crunch, perfect for snacks, salads and breakfast bowls.",
+    bestseller: true,
+    tags: ["Protein", "Crunchy", "Healthy"],
+  },
+
+  {
+    id: "sunflower-seeds",
+    name: "Sunflower Seeds",
+    category: "Seeds",
+    price: 120,
+    originalPrice: 120,
+    weight: "100 g",
+    image: img("sunflower seeds"),
+    description:
+      "Crunchy sunflower seeds with a mild nutty flavour.",
+    bestseller: false,
+    tags: ["Crunchy", "Healthy", "Snack"],
+  },
+
+  {
+    id: "watermelon-seeds",
+    name: "Watermelon Seeds",
+    category: "Seeds",
+    price: 120,
+    originalPrice: 120,
+    weight: "100 g",
+    image: img("watermelon seeds"),
+    description:
+      "Premium watermelon seeds, perfect for snacking and adding to healthy recipes.",
+    bestseller: false,
+    tags: ["Healthy", "Protein", "Snack"],
+  },
+
+  {
+    id: "flax-seeds",
+    name: "Flax Seeds",
+    category: "Seeds",
+    price: 120,
+    originalPrice: 120,
+    weight: "100 g",
+    image: img("flax seeds"),
+    description:
+      "Fresh earthy flax seeds suitable for smoothies, baking and everyday recipes.",
+    bestseller: false,
+    tags: ["Omega 3", "Fiber Rich", "Healthy"],
+  },
+
+  {
+    id: "chia-seeds",
+    name: "Chia Seeds",
+    category: "Seeds",
+    price: 120,
+    originalPrice: 120,
+    weight: "100 g",
+    image: img("chia seeds"),
+    description:
+      "Versatile chia seeds that are perfect for smoothies, overnight oats, puddings and baking.",
+    bestseller: true,
+    tags: ["Fiber Rich", "Omega 3", "Vegan"],
+  },
+
+  // =========================
+  // ADDITIONAL DRY FRUITS
+  // =========================
+
+  {
+    id: "medjool-dates",
+    name: "Medjool Dates",
+    category: "Dry Fruits",
+    price: 120,
+    originalPrice: 120,
+    weight: "100 g",
+    image: img("medjool dates"),
+    description:
+      "Soft, naturally sweet Medjool dates with a rich caramel-like flavour.",
+    bestseller: true,
+    tags: ["Naturally Sweet", "Energy Snack", "Premium"],
+  },
+
+  {
+    id: "dried-figs",
+    name: "Dried Figs",
+    category: "Dry Fruits",
+    price: 120,
+    originalPrice: 120,
+    weight: "100 g",
+    image: img("dried figs"),
+    description:
+      "Tender dried figs with naturally sweet flavour and satisfying texture.",
+    bestseller: false,
+    tags: ["Fiber Rich", "Naturally Sweet", "Premium"],
+  },
+
+  {
+    id: "almonds",
+    name: "Almonds",
+    category: "Dry Fruits",
+    price: 140,
+    originalPrice: 140,
+    weight: "100 g",
+    image: img("almonds"),
+    description:
+      "Premium almonds with a crisp bite and naturally rich flavour.",
+    bestseller: true,
+    tags: ["Premium", "Protein", "Everyday Snack"],
+  },
+
+  {
+    id: "cashews",
+    name: "Cashews",
+    category: "Dry Fruits",
+    price: 140,
+    originalPrice: 140,
+    weight: "100 g",
+    image: img("cashew nuts"),
+    description:
+      "Premium cashews with a creamy, buttery flavour and satisfying crunch.",
+    bestseller: true,
+    tags: ["Premium", "Crunchy", "Snack"],
+  },
+
+  {
+    id: "walnuts",
+    name: "Walnuts",
+    category: "Dry Fruits",
+    price: 180,
+    originalPrice: 180,
+    weight: "100 g",
+    image: img("walnuts"),
+    description:
+      "Quality walnuts with an earthy flavour and delicate crunch.",
+    bestseller: true,
+    tags: ["Omega Rich", "Crunchy", "Premium"],
+  },
+
+  {
+    id: "raisins",
+    name: "Raisins",
+    category: "Dry Fruits",
+    price: 80,
+    originalPrice: 80,
+    weight: "100 g",
+    image: img("raisins"),
+    description:
+      "Naturally sweet raisins with a soft and juicy texture.",
+    bestseller: false,
+    tags: ["Naturally Sweet", "Fruity", "Snack"],
+  },
+
+  {
+    id: "mixed-dry-fruits",
+    name: "Mixed Dry Fruits Combo",
+    category: "Dry Fruits",
+    price: 120,
+    originalPrice: 120,
+    weight: "100 g",
+    image: img("mixed dry fruits"),
+    description:
+      "A delicious assortment of premium dry fruits packed together for everyday snacking and gifting.",
+    bestseller: true,
+    tags: ["Combo", "Giftable", "Premium"],
+  },
+
+  // =========================
+  // DATES & PACKAGED PRODUCTS
+  // =========================
+
+  {
+    id: "kimia-dates",
+    name: "Royal Zaad Kimia Dates",
+    category: "Dry Fruits",
+    price: 30,
+    originalPrice: 375,
+    weight: "Pack",
+    image: img("Kimia dates"),
+    description:
+      "Original and selected Iranian Kimia dates with a soft texture and naturally rich sweetness.",
+    bestseller: true,
+    tags: ["Iranian Dates", "Premium", "Naturally Sweet"],
+  },
+
+  // =========================
+  // SPICES
+  // =========================
+
+  {
+    id: "cinnamon-polished",
+    name: "Cinnamon Polished",
+    category: "Seeds",
+    price: 110,
+    originalPrice: 110,
+    weight: "100 g",
+    image: img("cinnamon sticks"),
+    description:
+      "Premium polished cinnamon with a warm aroma and distinctive flavour.",
+    bestseller: false,
+    tags: ["Spice", "Aromatic", "Kitchen Essential"],
+  },
+
+  {
+    id: "cumin-seeds",
+    name: "Cumin Seeds",
+    category: "Seeds",
+    price: 80,
+    originalPrice: 80,
+    weight: "100 g",
+    image: img("cumin seeds"),
+    description:
+      "Aromatic cumin seeds suitable for tempering, curries and everyday cooking.",
+    bestseller: false,
+    tags: ["Spice", "Aromatic", "Kitchen Essential"],
+  },
+
+  {
+    id: "star-anise",
+    name: "Star Anise",
+    category: "Seeds",
+    price: 160,
+    originalPrice: 160,
+    weight: "100 g",
+    image: img("star anise"),
+    description:
+      "Fragrant whole star anise with a distinctive sweet-spicy aroma.",
+    bestseller: false,
+    tags: ["Spice", "Aromatic", "Whole Spice"],
+  },
+
+  {
+    id: "spice-box",
+    name: "Spice Box",
+    category: "Seeds",
+    price: 499,
+    originalPrice: 700,
+    weight: "Box",
+    image: img("spice box"),
+    description:
+      "A curated assortment of whole spices packed together for your everyday kitchen needs.",
+    bestseller: true,
+    tags: ["Spice Box", "Combo", "Giftable"],
+  },
+
+  // =========================
+  // CHOCOLATES
+  // =========================
+
+  {
+    id: "dark-chocolate-70",
+    name: "Dark Chocolate Bar 70%",
+    category: "Chocolate",
+    price: 249,
+    originalPrice: 299,
+    weight: "100 g",
+    image: img("dark chocolate"),
+    description:
+      "Smooth 70% dark chocolate with balanced cocoa intensity and a clean finish.",
+    bestseller: true,
+    tags: ["70% Cocoa", "Premium", "Chocolate"],
+  },
+
+  {
+    id: "hazelnut-praline",
+    name: "Hazelnut Praline Chocolate",
+    category: "Chocolate",
+    price: 329,
+    originalPrice: 379,
+    weight: "120 g",
+    image: img("hazelnut chocolate"),
+    description:
+      "Silky chocolate layered with fragrant roasted hazelnut praline.",
+    bestseller: true,
+    tags: ["Praline", "Giftable", "Rich"],
+  },
+
+  {
+    id: "almond-clusters",
+    name: "Almond Chocolate Clusters",
+    category: "Chocolate",
+    price: 299,
+    originalPrice: 349,
+    weight: "150 g",
+    image: img("almond chocolate clusters"),
+    description:
+      "Roasted almond pieces folded through creamy chocolate for an irresistible crunch.",
+    bestseller: false,
+    tags: ["Crunchy", "Almond", "Snack"],
+  },
+
+  {
+    id: "white-cranberry",
+    name: "White Chocolate with Cranberries",
+    category: "Chocolate",
+    price: 319,
+    originalPrice: 369,
+    weight: "120 g",
+    image: img("white chocolate cranberry"),
+    description:
+      "Creamy white chocolate with tart cranberries for a sweet and fruity balance.",
+    bestseller: false,
+    tags: ["Fruity", "Creamy", "Giftable"],
+  },
+
+  {
+    id: "truffle-box",
+    name: "Chocolate Truffle Box (12 pieces)",
+    category: "Chocolate",
+    price: 699,
+    originalPrice: 799,
+    weight: "180 g",
+    image: img("chocolate truffles"),
+    description:
+      "A curated box of twelve indulgent chocolate truffles, perfect for gifting and celebrations.",
+    bestseller: true,
+    tags: ["12 Pieces", "Gift Box", "Premium"],
+  },
+
+  {
+    id: "salted-caramel",
+    name: "Salted Caramel Chocolate",
+    category: "Chocolate",
+    price: 349,
+    originalPrice: 399,
+    weight: "120 g",
+    image: img("salted caramel chocolate"),
+    description:
+      "Velvety chocolate with buttery caramel notes and a delicate touch of sea salt.",
+    bestseller: true,
+    tags: ["Caramel", "Sea Salt", "Rich"],
+  },
 ];
 
-export const getProduct = (id: string) => products.find((product) => product.id === id);
+export const getProduct = (id: string) =>
+  products.find((product) => product.id === id);

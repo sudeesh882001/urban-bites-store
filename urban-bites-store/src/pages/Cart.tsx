@@ -4,6 +4,9 @@ import { products } from "../mocks/products";
 import { useCart } from "../context/CartContext";
 import QuantityControl from "../components/QuantityControl";
 import Seo from "../components/Seo";
+import { getPriceForWeight } from "../types";
+
+import ProductImage from "../components/ProductImage";
 
 export default function CartPage() {
   const { items, updateQuantity, removeFromCart, clearCart, subtotal, delivery, total } = useCart();
@@ -29,32 +32,36 @@ export default function CartPage() {
             <div className="my-16 rounded-card border border-[#eadfd7] bg-[#fff8ef] px-6 py-20 text-center">
               <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white text-4xl text-rosebrand"><i className="ri-shopping-bag-3-line" /></div>
               <h2 className="mt-6 font-heading text-3xl font-bold">Your cart is waiting for something delicious</h2>
-              <p className="mx-auto mt-3 max-w-md text-[#756861]">Add a few Urban Bites favorites and come back here when you're ready.</p>
+              <p className="mx-auto mt-3 max-w-md text-[#756861]">Add a few favorites and come back here when you're ready.</p>
               <Link to="/products" className="mt-7 inline-flex rounded-full bg-rosebrand px-7 py-3.5 font-bold text-white">Start Shopping</Link>
             </div>
           ) : (
             <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_380px]">
               <div className="space-y-3">
-                {cartProducts.map(({ product, quantity }) => (
-                  <div key={product.id} className="flex gap-4 rounded-card border border-[#eadfd7] bg-white p-4 sm:p-5">
-                    <Link to={`/product/${product.id}`} className="h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-[#fff8ef] sm:h-28 sm:w-28">
-                      <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
-                    </Link>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex justify-between gap-3">
-                        <div>
-                          <Link to={`/product/${product.id}`} className="font-heading text-base font-bold hover:text-rosebrand">{product.name}</Link>
-                          <p className="mt-1 text-sm text-[#85776f]">{product.weight}</p>
+                {cartProducts.map(({ product, weight, quantity }) => {
+                  const unitPrice = getPriceForWeight(product.price, weight);
+                  const itemTotal = unitPrice * quantity;
+                  return (
+                    <div key={`${product.id}-${weight}`} className="flex gap-4 rounded-card border border-[#eadfd7] bg-white p-4 sm:p-5">
+                      <Link to={`/product/${product.id}`} className="h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-[#fff8ef] sm:h-28 sm:w-28">
+                        <ProductImage src={product.image} alt={product.name} category={product.category} />
+                      </Link>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex justify-between gap-3">
+                          <div>
+                            <Link to={`/product/${product.id}`} className="font-heading text-base font-bold hover:text-rosebrand">{product.name}</Link>
+                            <p className="mt-1 text-xs font-semibold text-rosebrand">Weight: {weight} <span className="text-[#85776f] font-normal">(₹{unitPrice} / pack)</span></p>
+                          </div>
+                          <button onClick={() => removeFromCart(product.id, weight)} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#8d8078] hover:bg-rosebrand/10 hover:text-rosebrand" aria-label={`Remove ${product.name}`}><i className="ri-delete-bin-6-line" /></button>
                         </div>
-                        <button onClick={() => removeFromCart(product.id)} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#8d8078] hover:bg-rosebrand/10 hover:text-rosebrand" aria-label={`Remove ${product.name}`}><i className="ri-delete-bin-6-line" /></button>
-                      </div>
-                      <div className="mt-5 flex items-center justify-between gap-3">
-                        <QuantityControl quantity={quantity} onChange={(value) => updateQuantity(product.id, value)} />
-                        <p className="font-heading text-lg font-extrabold">₹{product.price * quantity}</p>
+                        <div className="mt-5 flex items-center justify-between gap-3">
+                          <QuantityControl quantity={quantity} onChange={(value) => updateQuantity(product.id, weight, value)} />
+                          <p className="font-heading text-lg font-extrabold">₹{itemTotal}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
                 <Link to="/products" className="inline-flex items-center gap-2 pt-3 font-bold text-rosebrand">← Continue Shopping</Link>
               </div>
 

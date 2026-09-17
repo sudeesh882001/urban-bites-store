@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard";
 import Seo from "../components/Seo";
 import type { Category } from "../types";
 
-const categories = ["All", "Dry Fruits", "Chocolate", "Seeds"] as const;
+const categories = ["All", "Nuts & Dry Fruits", "Seeds", "Spices", "Dates"] as const;
 
 export default function ProductsPage() {
   const [params, setParams] = useSearchParams();
@@ -29,7 +29,6 @@ export default function ProductsPage() {
     if (sort === "bestsellers") list = [...list].sort((a,b) => Number(b.bestseller)-Number(a.bestseller));
     if (sort === "price-low") list = [...list].sort((a,b) => a.price-b.price);
     if (sort === "price-high") list = [...list].sort((a,b) => b.price-a.price);
-    if (sort === "rating") list = [...list].sort((a,b) => b.rating-a.rating);
     return list;
   }, [category, search, sort]);
 
@@ -40,8 +39,8 @@ export default function ProductsPage() {
         <section className="container-page pb-10">
           <div className="max-w-3xl">
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-rosebrand">The collection</p>
-            <h1 className="mt-2 font-heading text-4xl font-extrabold sm:text-5xl">Shop all goodness</h1>
-            <p className="mt-4 text-[#756861]">Browse premium snacks and pantry favorites from Urban Bites.</p>
+            <h1 className="mt-2 font-heading text-4xl font-extrabold sm:text-5xl">Shop all Goodness</h1>
+            <p className="mt-4 text-[#756861]">Browse premium Dry Fruits, Seeds, Spices & Dates from Urban Bites.</p>
           </div>
 
           <div className="mt-9 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -57,7 +56,6 @@ export default function ProductsPage() {
                 <option value="bestsellers">Bestsellers</option>
                 <option value="price-low">Price Low-High</option>
                 <option value="price-high">Price High-Low</option>
-                <option value="rating">Top Rated</option>
               </select>
             </div>
           </div>

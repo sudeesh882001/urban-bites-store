@@ -6,11 +6,15 @@ import ProductCard from "../components/ProductCard";
 import QuantityControl from "../components/QuantityControl";
 import Seo from "../components/Seo";
 import NotFound from "./NotFound";
+import { WEIGHT_OPTIONS, getPriceForWeight, type WeightOption } from "../types";
+
+import ProductImage from "../components/ProductImage";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const product = id ? getProduct(id) : undefined;
   const { addToCart } = useCart();
+  const [selectedWeight, setSelectedWeight] = useState<WeightOption>("100g");
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
 
@@ -18,10 +22,10 @@ export default function ProductDetail() {
 
   if (!product) return <NotFound />;
 
-  const discount = Math.round((1 - product.price / product.originalPrice) * 100);
+  const price = getPriceForWeight(product.price, selectedWeight);
 
   const handleAdd = () => {
-    addToCart(product.id, quantity);
+    addToCart(product.id, selectedWeight, quantity);
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1800);
   };
@@ -39,26 +43,42 @@ export default function ProductDetail() {
 
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="relative aspect-square overflow-hidden rounded-card bg-[#fff8ef]">
-              <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
-              <div className="absolute left-4 top-4 flex gap-2">
-                {product.bestseller && <span className="rounded-full bg-rosebrand px-3 py-1.5 text-xs font-bold text-white">Bestseller</span>}
-                {discount > 0 && <span className="rounded-full bg-amberbrand px-3 py-1.5 text-xs font-bold text-white">{discount}% OFF</span>}
-              </div>
+              <ProductImage src={product.image} alt={product.name} category={product.category} />
+              {product.bestseller && (
+                <div className="absolute left-4 top-4 z-20">
+                  <span className="rounded-full bg-rosebrand px-3 py-1.5 text-xs font-bold text-white shadow-sm">Bestseller</span>
+                </div>
+              )}
             </div>
 
             <div className="flex flex-col justify-center">
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-rosebrand">{product.category}</p>
               <h1 className="mt-2 font-heading text-4xl font-extrabold leading-tight sm:text-5xl">{product.name}</h1>
-              <div className="mt-4 flex items-center gap-2">
-                <span className="font-bold text-amberbrand"><i className="ri-star-fill" /> {product.rating}</span>
-                <span className="text-sm text-[#83766e]">({product.reviews} reviews)</span>
+              
+              {/* Weight Options */}
+              <div className="mt-5">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#766961]">Select Weight</label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {WEIGHT_OPTIONS.map((w) => (
+                    <button
+                      key={w}
+                      type="button"
+                      onClick={() => setSelectedWeight(w)}
+                      className={`rounded-lg px-4 py-2 text-sm font-bold transition ${
+                        selectedWeight === w
+                          ? "bg-rosebrand text-white shadow-sm"
+                          : "bg-[#f5e9dc] text-[#554943] hover:bg-[#eadfd7]"
+                      }`}
+                    >
+                      {w}
+                    </button>
+                  ))}
+                </div>
               </div>
+
               <div className="mt-6 flex items-end gap-3">
-                <span className="font-heading text-4xl font-extrabold">₹{product.price}</span>
-                <span className="pb-1 text-lg text-[#9b8e86] line-through">₹{product.originalPrice}</span>
-                <span className="rounded-full bg-[#fff0f5] px-3 py-1 text-xs font-bold text-rosebrand">{discount}% OFF</span>
+                <span className="font-heading text-4xl font-extrabold text-[#2d2623]">₹{price}</span>
               </div>
-              <p className="mt-2 text-sm font-semibold text-[#766961]">Pack size: {product.weight}</p>
               <p className="mt-6 leading-8 text-[#655952]">{product.description}</p>
               <div className="mt-6 flex flex-wrap gap-2">
                 {product.tags.map(tag => <span key={tag} className="rounded-full bg-[#f5e9dc] px-3 py-1.5 text-xs font-semibold text-[#665950]">{tag}</span>)}
@@ -66,7 +86,7 @@ export default function ProductDetail() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <QuantityControl quantity={quantity} onChange={(value) => setQuantity(Math.max(1, value))} />
                 <button onClick={handleAdd} className={`flex flex-1 items-center justify-center gap-2 rounded-full px-7 py-3.5 font-bold text-white ${added ? "bg-[#2d8a5c]" : "bg-rosebrand hover:bg-roseDeep"}`}>
-                  <i className={added ? "ri-check-line" : "ri-shopping-bag-3-line"} /> {added ? "Added to Cart" : "Add to Cart"}
+                  <i className={added ? "ri-check-line" : "ri-shopping-bag-3-line"} /> {added ? "Added to Cart" : `Add to Cart • ₹${price * quantity}`}
                 </button>
               </div>
               {added && <Link to="/cart" className="mt-3 text-center text-sm font-bold text-rosebrand">View Cart →</Link>}

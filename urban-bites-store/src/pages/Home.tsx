@@ -3,11 +3,13 @@ import { products } from "../mocks/products";
 import ProductCard from "../components/ProductCard";
 import SectionTitle from "../components/SectionTitle";
 import Seo from "../components/Seo";
+import logo from "../assets/urbanbiteslogo.png";
 
 const categories = [
-  { name: "Dry Fruits", icon: "ri-seedling-line", query: "dry fruits, nuts" },
-  { name: "Chocolate", icon: "ri-cake-3-line", query: "chocolate dessert" },
-  { name: "Seeds", icon: "ri-leaf-line", query: "seeds healthy food" }
+  { name: "Nuts & Dry Fruits", icon: "ri-seedling-line", bg: "bg-gradient-to-br from-[#fff7ed] via-[#ffedd5] to-[#fed7aa]", text: "text-[#9a3412]" },
+  { name: "Seeds", icon: "ri-leaf-line", bg: "bg-gradient-to-br from-[#f0fdf4] via-[#dcfce7] to-[#bbf7d0]", text: "text-[#166534]" },
+  { name: "Spices", icon: "ri-sparkles-line", bg: "bg-gradient-to-br from-[#fff1f2] via-[#ffe4e6] to-[#fecdd3]", text: "text-[#9f1239]" },
+  { name: "Dates", icon: "ri-restaurant-line", bg: "bg-gradient-to-br from-[#fdf8f6] via-[#f2e8e5] to-[#e6d5d0]", text: "text-[#7c2d12]" }
 ];
 
 export default function Home() {
@@ -15,17 +17,20 @@ export default function Home() {
     <>
       <Seo />
       <main>
-        <section className="relative flex min-h-[720px] items-center overflow-hidden bg-[#382b24]">
-          <img src="https://loremflickr.com/1800/1100/dryfruit,chocolate,food?lock=88" alt="" className="absolute inset-0 h-full w-full object-cover opacity-70" />
-          <div className="absolute inset-0 bg-[#1d1613]/65" />
-          <div className="container-page relative z-10 flex justify-center pt-24">
+        <section className="relative flex min-h-[540px] items-center overflow-hidden bg-gradient-to-br from-[#2a1d17] via-[#3a2920] to-[#1a120e]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(236,15,104,0.15)_0,transparent_100%)]" />
+          <div className="container-page relative z-10 flex justify-center py-20 pt-28">
             <div className="max-w-3xl text-center text-white">
-              <img src="/urbanbiteslogo.png" alt="Urban Bites" className="mx-auto mb-5 h-24 w-24 rounded-2xl object-contain bg-white/95 p-1" />
-              <p className="mb-4 font-semibold uppercase tracking-[0.25em] text-[#ffb3d1]">Goodness in every bite</p>
-              <h1 className="font-heading text-4xl font-extrabold leading-tight sm:text-6xl">Premium Dry Fruits, Chocolate & Seeds</h1>
+              <img
+                src={logo}
+                alt="Urban Bites"
+                className="mx-auto mb-5 h-24 w-24 rounded-2xl object-contain bg-white/95 p-1.5 shadow-lg"
+              />
+              <p className="mb-4 font-semibold uppercase tracking-[0.25em] text-[#ffb3d1]">Taste in every bite</p>
+              <h1 className="font-heading text-4xl font-extrabold leading-tight sm:text-6xl">Premium Dry Fruits, Seeds & Spices</h1>
               <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-white/85 sm:text-lg">Thoughtfully selected, beautifully packed and delivered fresh to your doorstep.</p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <Link to="/products" className="rounded-full bg-rosebrand px-7 py-3.5 font-bold text-white transition hover:bg-roseDeep">Shop Now <i className="ri-arrow-right-line ml-1" /></Link>
+                <Link to="/products" className="rounded-full bg-rosebrand px-7 py-3.5 font-bold text-white transition hover:bg-roseDeep shadow-md">Shop Now <i className="ri-arrow-right-line ml-1" /></Link>
                 <Link to="/products?category=Dry%20Fruits" className="rounded-full border border-white/60 bg-white/10 px-7 py-3.5 font-bold text-white backdrop-blur-sm transition hover:bg-white hover:text-[#2b2523]">Explore Dry Fruits</Link>
               </div>
             </div>
@@ -35,15 +40,22 @@ export default function Home() {
         <section className="section-pad">
           <div className="container-page">
             <SectionTitle eyebrow="Shop by category" title="Something delicious for every mood" centered />
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {categories.map((category) => (
-                <Link key={category.name} to={`/products?category=${encodeURIComponent(category.name)}`} className="group relative overflow-hidden rounded-card bg-[#f1e4d6]">
-                  <img src={`https://loremflickr.com/900/700/${encodeURIComponent(category.query)}?lock=${category.name.length * 7}`} alt={category.name} className="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-2xl text-rosebrand"><i className={category.icon} /></div>
-                    <h3 className="font-heading text-2xl font-bold">{category.name}</h3>
-                    <p className="mt-1 text-sm text-white/80">Explore collection <i className="ri-arrow-right-line" /></p>
+                <Link
+                  key={category.name}
+                  to={`/products?category=${encodeURIComponent(category.name)}`}
+                  className={`group relative flex h-60 flex-col justify-between overflow-hidden rounded-card ${category.bg} p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-black/5`}
+                >
+                  <div className="flex justify-between items-start">
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-white/90 ${category.text} shadow-sm text-2xl`}>
+                      <i className={category.icon} />
+                    </div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#2b2523]/60 group-hover:text-rosebrand">Explore →</span>
+                  </div>
+                  <div>
+                    <h3 className="font-heading text-2xl font-bold text-[#2b2523]">{category.name}</h3>
+                    <p className="mt-1 text-xs font-semibold text-[#2b2523]/70">Browse products in this collection</p>
                   </div>
                 </Link>
               ))}

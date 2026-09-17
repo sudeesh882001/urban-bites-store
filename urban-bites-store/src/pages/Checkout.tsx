@@ -2,8 +2,11 @@ import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { products } from "../mocks/products";
 import { useCart } from "../context/CartContext";
-import type { OrderCustomer } from "../types";
+import { getPriceForWeight, type OrderCustomer } from "../types";
 import Seo from "../components/Seo";
+
+import { processOrderNotification } from "../services/orderService";
+import ProductImage from "../components/ProductImage";
 
 const initial: OrderCustomer & { website: string } = {
   fullName:"", phone:"", email:"", address:"", city:"", state:"", pincode:"", notes:"", website:""
@@ -16,6 +19,13 @@ export default function Checkout() {
   const [errors, setErrors] = useState<Record<string,string>>({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [placedOrderId, setPlacedOrderId] = useState("");
+  const [notificationResult, setNotificationResult] = useState<{
+    emailSent: boolean;
+    sheetSent: boolean;
+    emailError?: string;
+    sheetError?: string;
+  } | null>(null);
 
   const cartProducts = items.map(item => ({ ...item, product: products.find(p => p.id === item.productId)! })).filter(item => item.product);
 
@@ -37,18 +47,40 @@ export default function Checkout() {
     return e;
   };
 
-  const submit = (event: FormEvent) => {
+  const submit = async (event: FormEvent) => {
     event.preventDefault();
     if (form.website) return;
     const e = validate();
     setErrors(e);
     if (Object.keys(e).length) return;
     setLoading(true);
-    window.setTimeout(() => {
+
+    const generatedOrderId = `UB-${Date.now().toString().slice(-6)}`;
+    setPlacedOrderId(generatedOrderId);
+
+    try {
+      const res = await processOrderNotification({
+        orderId: generatedOrderId,
+        customer: form,
+        items,
+        subtotal,
+        delivery,
+        total,
+        createdAt: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+      });
+      setNotificationResult(res);
+    } catch (err: any) {
+      console.error("Order notification error:", err);
+      setNotificationResult({
+        emailSent: false,
+        sheetSent: false,
+        emailError: err?.message || "Failed to trigger order notification",
+      });
+    } finally {
       setLoading(false);
       setSuccess(true);
       clearCart();
-    }, 1200);
+    }
   };
 
   if (success) {
@@ -59,11 +91,50 @@ export default function Checkout() {
           <div className="container-page">
             <div className="mx-auto max-w-2xl py-16 text-center">
               <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#e5f7ee] text-4xl text-[#2d8a5c]"><i className="ri-check-line" /></div>
-              <p className="mt-7 text-sm font-bold uppercase tracking-[0.18em] text-rosebrand">Order placed</p>
+              <p className="mt-7 text-sm font-bold uppercase tracking-[0.18em] text-rosebrand">Order #{placedOrderId}</p>
               <h1 className="mt-2 font-heading text-4xl font-extrabold sm:text-5xl">Thank you, {form.fullName.split(" ")[0]}!</h1>
-              <p className="mx-auto mt-5 max-w-lg leading-7 text-[#756861]">Your Urban Bites order has been confirmed. Our team will prepare it with care and you can expect delivery in <strong>2–5 business days</strong>.</p>
+              <p className="mx-auto mt-5 max-w-lg leading-7 text-[#756861]">Your Urban Bites order has been placed. Details below.</p>
+              
+              {/* Notification Status Badges */}
+              {notificationResult && (
+                <div className="mx-auto mt-6 max-w-md space-y-2 text-left text-xs">
+                  {notificationResult.emailSent ? (
+                    <div className="flex items-center gap-2 rounded-lg bg-[#e5f7ee] p-3 font-semibold text-[#2d8a5c]">
+                      <i className="ri-mail-check-line text-lg" />
+                      <span>Order notification sent to support.urbanbites@gmail.com!</span>
+                    </div>
+                  ) : (
+                    <div className="rounded-lg bg-[#fff1f2] p-3 text-[#9f1239]">
+                      <div className="flex items-center gap-2 font-bold">
+                        <i className="ri-error-warning-line text-lg" />
+                        <span>EmailJS Setup Action Needed:</span>
+                      </div>
+                      <p className="mt-1 leading-5 text-[#be123c]">{notificationResult.emailError}</p>
+                    </div>
+                  )}
+
+                  {notificationResult.sheetSent ? (
+                    <div className="flex items-center gap-2 rounded-lg bg-[#e5f7ee] p-3 font-semibold text-[#2d8a5c]">
+                      <i className="ri-table-line text-lg" />
+                      <span>Order logged to Google Sheets spreadsheet!</span>
+                    </div>
+                  ) : (
+                    notificationResult.sheetError && (
+                      <div className="rounded-lg bg-[#fefce8] p-3 text-[#854d0e]">
+                        <div className="flex items-center gap-2 font-bold">
+                          <i className="ri-information-line text-lg" />
+                          <span>Google Sheets Webhook Status:</span>
+                        </div>
+                        <p className="mt-1 leading-5 text-[#a16207]">{notificationResult.sheetError}</p>
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
+
               <div className="mx-auto mt-8 max-w-md rounded-card border border-[#eadfd7] bg-[#fff8ef] p-6 text-left">
-                <div className="flex justify-between text-sm"><span className="text-[#756861]">Payment</span><strong>Cash on Delivery</strong></div>
+                <div className="flex justify-between text-sm"><span className="text-[#756861]">Order ID</span><strong>{placedOrderId}</strong></div>
+                <div className="mt-3 flex justify-between text-sm"><span className="text-[#756861]">Payment</span><strong>Cash on Delivery</strong></div>
                 <div className="mt-3 flex justify-between text-sm"><span className="text-[#756861]">Total</span><strong>₹{total}</strong></div>
                 <div className="mt-3 flex justify-between text-sm"><span className="text-[#756861]">Deliver to</span><strong className="max-w-[210px] text-right">{form.city}, {form.state}</strong></div>
               </div>
@@ -145,13 +216,22 @@ export default function Checkout() {
             <aside className="h-fit rounded-card border border-[#eadfd7] bg-[#fff8ef] p-6 lg:sticky lg:top-28">
               <h2 className="font-heading text-xl font-bold">Order Summary</h2>
               <div className="mt-5 space-y-4">
-                {cartProducts.map(({product, quantity}) => (
-                  <div key={product.id} className="flex gap-3">
-                    <img src={product.image} alt="" className="h-14 w-14 rounded-lg object-cover bg-white" />
-                    <div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold">{product.name}</p><p className="mt-1 text-xs text-[#83766e]">{quantity} × ₹{product.price}</p></div>
-                    <p className="text-sm font-bold">₹{product.price * quantity}</p>
-                  </div>
-                ))}
+                {cartProducts.map(({product, weight, quantity}) => {
+                  const unitPrice = getPriceForWeight(product.price, weight);
+                  const itemTotal = unitPrice * quantity;
+                  return (
+                    <div key={`${product.id}-${weight}`} className="flex gap-3 items-center">
+                      <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-[#eadfd7]">
+                        <ProductImage src={product.image} alt={product.name} category={product.category} />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-semibold">{product.name} ({weight})</p>
+                        <p className="mt-1 text-xs text-[#83766e]">{quantity} × ₹{unitPrice}</p>
+                      </div>
+                      <p className="text-sm font-bold">₹{itemTotal}</p>
+                    </div>
+                  );
+                })}
               </div>
               <div className="mt-6 space-y-3 border-t border-[#dfd2c8] pt-5 text-sm">
                 <div className="flex justify-between"><span className="text-[#756861]">Subtotal</span><strong>₹{subtotal}</strong></div>
